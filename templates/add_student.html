@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card shadow">
+  <div class="card-header bg-primary text-white">
+    <h4 class="mb-0">Add New Student</h4>
+  </div>
+  <div class="card-body">
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label class="form-label">Name</label>
+          <input name="name" class="form-control" placeholder="Enter name" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Email</label>
+          <input name="email" type="email" class="form-control" placeholder="Enter email" required>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label class="form-label">Register Number</label>
+          <input name="register_number" class="form-control" placeholder="Enter register number" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Course</label>
+          <input name="course" class="form-control" placeholder="Enter course" required>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <label class="form-label">Batch</label>
+          <input name="batch" class="form-control" placeholder="e.g. 2023-2026">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Department</label>
+          <input name="department" class="form-control" placeholder="Department">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Status</label>
+          <select name="status" class="form-select">
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="text-end">
+        <a href="/" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-success">Save Student</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

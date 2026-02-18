@@ -1,0 +1,179 @@
+ {% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+
+  <!-- Page Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+
+    <h2 class="fw-bold text-primary">🎓 Student Dashboard</h2>
+
+    <a href="{% url 'add_student' %}" class="btn btn-primary shadow-sm">
+      ➕ Add Student
+    </a>
+
+  </div>
+
+
+  <!-- Stats Cards -->
+  <div class="row mb-4">
+
+    <div class="col-md-4">
+        <div class="dashboard-card" style="
+            background: linear-gradient(135deg,#0f172a,#1e293b);
+            color:#f8fafc;">
+            <h6>Total Students</h6>
+            <h1>{{ total_students }}</h1>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="dashboard-card" style="
+            background: linear-gradient(135deg,#3f2d12,#8b6b3e);
+            color:#fff;">
+            <h6>Active Students</h6>
+            <h1>{{ active_students }}</h1>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="dashboard-card" style="
+            background: linear-gradient(135deg,#1e293b,#334155);
+            color:#fff;">
+            <h6>System Status</h6>
+            <h1>Online</h1>
+        </div>
+    </div>
+
+</div>
+
+
+  <!-- Search Bar -->
+  <div class="card shadow border-0 mb-4">
+    <div class="card-body">
+
+      <form method="GET">
+
+        <div class="input-group">
+
+          <input type="text"
+                 name="q"
+                 class="form-control"
+                 placeholder="Search student by name..."
+                 value="{{ request.GET.q }}">
+
+          <button class="btn btn-primary">
+            Search
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+
+  <!-- Student Table -->
+  <div class="card shadow border-0">
+
+    <div class="card-header bg-dark text-white">
+      <h5 class="mb-0">Student List</h5>
+    </div>
+
+    <div class="card-body">
+
+      <div class="table-responsive">
+
+        <table class="table table-hover align-middle">
+
+          <thead class="table-dark">
+
+            <tr>
+              <th>Name</th>
+              <th>Register No</th>
+              <th>Course</th>
+              <th>Department</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            {% for student in students %}
+
+            <tr>
+
+              <td class="fw-semibold">
+                {{ student.name }}
+              </td>
+
+              <td>
+                {{ student.register_number }}
+              </td>
+
+              <td>
+                {{ student.course }}
+              </td>
+
+              <td>
+                {{ student.department }}
+              </td>
+
+              <td>
+
+                {% if student.status == "Active" %}
+                  <span class="badge bg-success">Active</span>
+                {% else %}
+                  <span class="badge bg-danger">Inactive</span>
+                {% endif %}
+
+              </td>
+
+              <td>
+
+                <a href="{% url 'student_detail' student.id %}"
+                   class="btn btn-sm btn-info">
+                   View
+                </a>
+
+                <a href="{% url 'edit_student' student.id %}"
+                   class="btn btn-sm btn-warning">
+                   Edit
+                </a>
+
+                <a href="{% url 'delete_student' student.id %}"
+                   class="btn btn-sm btn-danger"
+                   onclick="return confirm('Delete this student?')">
+                   Delete
+                </a>
+
+              </td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+              <td colspan="6" class="text-center text-muted">
+                No students found.
+              </td>
+            </tr>
+
+            {% endfor %}
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

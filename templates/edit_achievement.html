@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card shadow p-4">
+    <h3>Edit Achievement</h3>
+    <hr>
+
+    <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+
+        <div class="mb-3">
+            <label>Title</label>
+            <input type="text" name="title" value="{{ achievement.title }}" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Description</label>
+            <textarea name="description" class="form-control" required>{{ achievement.description }}</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label>Category</label>
+            <select name="category" class="form-control" required>
+                {% for category in categories %}
+                    <option value="{{ category.id }}"
+                    {% if category.id == achievement.category.id %}
+                        selected
+                    {% endif %}
+                    >
+                        {{ category.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label>Date</label>
+            <input type="date" name="date" value="{{ achievement.date|date:'Y-m-d' }}" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Proof File</label>
+            <input type="file" name="proof" class="form-control">
+
+            {% if achievement.proof %}
+                <p class="mt-2">
+                    Current File:
+                    <a href="{{ achievement.proof.url }}" target="_blank">
+                        View File
+                    </a>
+                </p>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-success">
+            Update Achievement
+        </button>
+
+        <a href="{% url 'student_detail' achievement.student.id %}" class="btn btn-secondary">
+            Cancel
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

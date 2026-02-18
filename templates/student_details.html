@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+
+  <!-- Student Profile Card -->
+  <div class="card shadow-lg border-0 mb-4">
+    <div class="card-body">
+
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h2 class="fw-bold text-primary">{{ student.name }}</h2>
+          <p class="text-muted mb-0">{{ student.email }}</p>
+        </div>
+
+        <div>
+          <span class="badge bg-success fs-6">{{ student.status }}</span>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="row mt-3">
+
+        <div class="col-md-4">
+          <p><strong>Register No:</strong><br>{{ student.register_number }}</p>
+        </div>
+
+        <div class="col-md-4">
+          <p><strong>Course:</strong><br>{{ student.course }}</p>
+        </div>
+
+        <div class="col-md-4">
+          <p><strong>Batch:</strong><br>{{ student.batch }}</p>
+        </div>
+
+        <div class="col-md-4">
+          <p><strong>Department:</strong><br>{{ student.department }}</p>
+        </div>
+
+      </div>
+
+      <div class="mt-3">
+
+        <a href="{% url 'edit_student' student.id %}" class="btn btn-warning">
+          ✏ Edit Student
+        </a>
+
+        <a href="{% url 'delete_student' student.id %}" class="btn btn-danger"
+           onclick="return confirm('Delete this student?')">
+           🗑 Delete
+        </a>
+
+        <a href="{% url 'student_list' %}" class="btn btn-secondary">
+          ← Back
+        </a>
+
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- Achievement Section -->
+  <div class="card shadow-lg border-0">
+
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+
+      <h4 class="mb-0">🏆 Achievements</h4>
+
+      <a href="{% url 'add_achievement' student.id %}" class="btn btn-light btn-sm">
+        ➕ Add Achievement
+      </a>
+
+    </div>
+
+    <div class="card-body">
+
+      {% if student.achievements.all %}
+
+      <div class="table-responsive">
+
+        <table class="table table-hover align-middle">
+
+          <thead class="table-dark">
+            <tr>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Date</th>
+              <th>Proof</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            {% for ach in student.achievements.all %}
+            <tr>
+
+              <td class="fw-semibold">{{ ach.title }}</td>
+
+              <td>{{ ach.description }}</td>
+
+              <td>{{ ach.date }}</td>
+
+              <td>
+                {% if ach.proof %}
+                  <a href="{{ ach.proof.url }}" target="_blank" class="btn btn-sm btn-info">
+                    View
+                  </a>
+                {% else %}
+                  <span class="text-muted">No File</span>
+                {% endif %}
+              </td>
+
+              <td>
+
+                {% if ach.status == "Approved" %}
+                  <span class="badge bg-success">Approved</span>
+
+                {% elif ach.status == "Rejected" %}
+                  <span class="badge bg-danger">Rejected</span>
+
+                {% else %}
+                  <span class="badge bg-warning text-dark">Pending</span>
+                {% endif %}
+
+              </td>
+
+              <td>
+
+                <a href="{% url 'edit_achievement' ach.id %}"
+                   class="btn btn-sm btn-warning">
+                   Edit
+                </a>
+
+                <a href="{% url 'delete_achievement' ach.id %}"
+                   class="btn btn-sm btn-danger"
+                   onclick="return confirm('Delete this achievement?')">
+                   Delete
+                </a>
+
+                {% if ach.status == "Pending" %}
+
+                <a href="{% url 'approve_achievement' ach.id %}"
+                   class="btn btn-sm btn-success">
+                   Approve
+                </a>
+
+                <a href="{% url 'reject_achievement' ach.id %}"
+                   class="btn btn-sm btn-secondary">
+                   Reject
+                </a>
+
+                {% endif %}
+
+              </td>
+
+            </tr>
+            {% endfor %}
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+      {% else %}
+
+        <div class="text-center text-muted">
+          No achievements added yet.
+        </div>
+
+      {% endif %}
+
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}
+

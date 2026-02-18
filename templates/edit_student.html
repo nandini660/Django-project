@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Edit Student</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* Main card */
+.card{
+    background:#f5f0e6; /* beige */
+    padding:40px;
+    border-radius:16px;
+    width:500px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.3);
+    animation: fadeIn 0.5s ease;
+}
+
+/* Title */
+.title{
+    font-size:28px;
+    font-weight:bold;
+    color:#0f172a;
+    margin-bottom:25px;
+    text-align:center;
+}
+
+/* Labels */
+label{
+    font-weight:600;
+    color:#334155;
+    display:block;
+    margin-top:12px;
+}
+
+/* Inputs */
+input{
+    width:100%;
+    padding:10px;
+    border-radius:8px;
+    border:1px solid #cbd5e1;
+    margin-top:5px;
+    font-size:14px;
+    transition:0.3s;
+}
+
+input:focus{
+    outline:none;
+    border-color:#0f172a;
+    box-shadow:0 0 8px rgba(15,23,42,0.3);
+}
+
+/* Button */
+button{
+    width:100%;
+    padding:12px;
+    margin-top:20px;
+    border:none;
+    border-radius:10px;
+    background:#0f172a;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#1e293b;
+    transform:scale(1.03);
+}
+
+/* Back button */
+.back{
+    background:#64748b;
+    margin-top:10px;
+}
+
+.back:hover{
+    background:#475569;
+}
+
+/* Animation */
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+</style>
+</head>
+<body>
+
+<div class="card">
+
+<div class="title">Edit Student</div>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <label>Name</label>
+    <input type="text" name="name" value="{{ student.name }}">
+
+    <label>Email</label>
+    <input type="email" name="email" value="{{ student.email }}">
+
+    <label>Register Number</label>
+    <input type="text" name="register_number" value="{{ student.register_number }}">
+
+    <label>Course</label>
+    <input type="text" name="course" value="{{ student.course }}">
+
+    <label>Batch</label>
+    <input type="text" name="batch" value="{{ student.batch }}">
+
+    <label>Department</label>
+    <input type="text" name="department" value="{{ student.department }}">
+
+    <label>Status</label>
+    <input type="text" name="status" value="{{ student.status }}">
+
+    <button type="submit">Update Student</button>
+
+</form>
+
+<a href="{% url 'student_detail' student.id %}">
+    <button class="back">Back</button>
+</a>
+
+</div>
+
+</body>
+</html>
+
+
